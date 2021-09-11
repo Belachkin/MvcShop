@@ -1,0 +1,52 @@
+﻿@model MvcShop.Models.ViewModels.Pages.PageVM
+
+@{
+    ViewBag.Title = "Page Details";
+}
+
+<h2>Page Details</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.shortDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.shortDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Body)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasSidebar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HasSidebar)
+        </dd>
+
+    </dl>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic mixed styles example">
+    @Html.ActionLink("Edit", "EditPage", new { id = Model.Id}, new { @class = "btn btn-succes" })
+    @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-succes" })
+</div>
+
