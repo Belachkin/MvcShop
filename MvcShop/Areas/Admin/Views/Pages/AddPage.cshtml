@@ -6,17 +6,17 @@
 
 <h2>Add New Page</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">      
+
+    <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { @class = "form-control" } )<br />
+                @Html.EditorFor(model => model.Title, new { @class = "form-control" })<br />
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -24,7 +24,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.shortDesc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.shortDesc, new { @class = "form-control" } )<br />
+                @Html.EditorFor(model => model.shortDesc, new { @class = "form-control" })<br />
                 @Html.ValidationMessageFor(model => model.shortDesc, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Body, new { @class = "form-control" } )<br />
+                @Html.TextAreaFor(model => model.Body, new { @class = "form-control" })<br />
                 @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -48,11 +48,17 @@
             </div>
         </div>
         <br /><br />
-        
+
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
             <input type="submit" value="Add Page" class="btn btn-success" />
             @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-succes" })
         </div>
-    </div>    
+    </div>
 }
 
+@section Scripts
+{
+    <script>
+        CKEDITOR.replace("Body")
+    </script>
+}

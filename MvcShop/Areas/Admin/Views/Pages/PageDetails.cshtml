@@ -29,11 +29,11 @@
         <dt>
             @Html.DisplayNameFor(model => model.Body)
         </dt>
-
+        <hr />
         <dd>
-            @Html.DisplayFor(model => model.Body)
+            @Html.Raw(Model.Body)
         </dd>
-
+        <hr />
         <dt>
             @Html.DisplayNameFor(model => model.HasSidebar)
         </dt>
@@ -49,4 +49,5 @@
     @Html.ActionLink("Edit", "EditPage", new { id = Model.Id}, new { @class = "btn btn-succes" })
     @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-succes" })
 </div>
+
 
