@@ -10,6 +10,7 @@ namespace MvcShop.Areas.Admin.Controllers
 {
     public class ShopController : Controller
     {
+        //Category------------------------------------
         // GET: Admin/Shop/Categories
         public ActionResult Categories()
         {
@@ -120,5 +121,20 @@ namespace MvcShop.Areas.Admin.Controllers
 
             
         }
+
+        //Product----------------------------------------
+        // GET: Admin/Shop/AddProduct 
+        public ActionResult AddProduct()
+        {
+            ProductVM model = new ProductVM();
+
+            using(Db db = new Db())
+            {
+                model.Categories = new SelectList(db.Categories.ToList(), "id", "Name");
+            }
+
+            return View(model);
+        }
+
     }
 }
