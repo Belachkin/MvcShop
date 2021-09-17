@@ -30,6 +30,7 @@ namespace MvcShop.Models.ViewModels.Shop
         public string Name { get; set; }
         public string shortDesc { get; set; }
         [Required]
+        [DisplayName("Description")]
         public string longDesc { get; set; }
         [Required]
         public decimal Price { get; set; }     
