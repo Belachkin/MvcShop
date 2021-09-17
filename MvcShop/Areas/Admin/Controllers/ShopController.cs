@@ -110,7 +110,7 @@ namespace MvcShop.Areas.Admin.Controllers
                 CategoryDTO dto = db.Categories.Find(id);
 
                 dto.Name = newCatName;
-                dto.Name = newCatName.Replace(" ", "-").ToLower();
+                dto.Desc = newCatName.Replace(" ", "-").ToLower();
 
                 db.SaveChanges();
             }

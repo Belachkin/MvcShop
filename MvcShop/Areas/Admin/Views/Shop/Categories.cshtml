@@ -196,7 +196,7 @@ else
             var $this = $(this);
             var ajaxdiv = $this.parent().parent().parent().find(".ajaxdivtd");
             var newCatName = $this.val();
-            var id = $this.parent().parent().parent().parent().parent().attr("id").substring(3);
+            var id = $this.parent().parent().parent().parent().attr("id").substring(3);
             var url = "/admin/shop/RenameCategory";
 
             if (newCatName.length < 3) {
