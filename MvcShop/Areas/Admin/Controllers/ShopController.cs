@@ -152,13 +152,13 @@ namespace MvcShop.Areas.Admin.Controllers
                 }
             }
             //Проверка уникальности
-            using(Db db = new Db())
+            using (Db db = new Db())
             {
-                if(db.Products.Any(x => x.Name == model.Name))
+                if (db.Products.Any(x => x.Name == model.Name))
                 {
                     model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
                     ModelState.AddModelError("", "That product is taken.");
-                    return View(model);                  
+                    return View(model);
                 }
             }
 
