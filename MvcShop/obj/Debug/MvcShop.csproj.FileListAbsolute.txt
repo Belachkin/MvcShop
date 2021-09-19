@@ -140,3 +140,7 @@ D:\GitHub clone\MvcShop\MvcShop\obj\Debug\MvcShop.csproj.CoreCompileInputs.cache
 D:\GitHub clone\MvcShop\MvcShop\obj\Debug\MvcShop.csproj.CopyComplete
 D:\GitHub clone\MvcShop\MvcShop\obj\Debug\MvcShop.dll
 D:\GitHub clone\MvcShop\MvcShop\obj\Debug\MvcShop.pdb
+D:\GitHub clone\MvcShop\MvcShop\bin\PagedList.dll
+D:\GitHub clone\MvcShop\MvcShop\bin\PagedList.Mvc.dll
+D:\GitHub clone\MvcShop\MvcShop\bin\PagedList.xml
+D:\GitHub clone\MvcShop\MvcShop\bin\PagedList.Mvc.xml

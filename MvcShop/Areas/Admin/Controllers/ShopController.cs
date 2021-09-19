@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Helpers;
+using PagedList;
 
 namespace MvcShop.Areas.Admin.Controllers
 {
@@ -266,6 +267,187 @@ namespace MvcShop.Areas.Admin.Controllers
 
 
             return RedirectToAction("AddProduct");
+        }
+        // GET: Admin/Shop/Products
+        [HttpGet]
+        public ActionResult Products(int? page, int? catId) //int? означает что может принимать null
+        {
+            List<ProductVM> ListOfProductVM;
+
+            var pageNumber = page ?? 1;
+
+            using (Db db = new Db())
+            {
+                ListOfProductVM = db.Products.ToArray()
+                    .Where(x => catId == null || catId == 0 || x.CategoryId == catId)
+                    .Select(x => new ProductVM(x))
+                    .ToList();
+
+                ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+
+                ViewBag.SelectedCat = catId.ToString();
+            }
+
+            var onePageOfProducts = ListOfProductVM.ToPagedList(pageNumber, 3);
+
+            ViewBag.onePageOfProducts = onePageOfProducts;
+
+            return View(ListOfProductVM);
+        }
+        // GET: Admin/Shop/EditProduct/id
+        [HttpGet]
+        public ActionResult EditProduct(int id)
+        {
+            ProductVM model;
+
+            using(Db db = new Db())
+            {
+                ProductDTO dto = db.Products.Find(id);
+                if(dto == null)
+                {
+                    return Content("That product does not exist.");
+                }
+
+                model = new ProductVM(dto);
+
+                model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+
+                model.GalleryImages = Directory
+                    .EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))
+                    .Select(fn => Path.GetFileName(fn));
+            }
+            return View(model);
+        }
+        // POST: Admin/Shop/EditProduct/id
+        [HttpPost]
+        public ActionResult EditProduct(ProductVM model, HttpPostedFileBase file)
+        {
+            int id = model.Id;
+
+            using(Db db = new Db())
+            {
+                model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+            }
+
+            model.GalleryImages = Directory
+                    .EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))
+                    .Select(fn => Path.GetFileName(fn));
+
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            using (Db db = new Db())
+            {
+                if(db.Products.Where(x => x.Id != id).Any(x => x.Name == model.Name))
+                {
+                    ModelState.AddModelError("", "That product name is taken.");
+                    return View(model);
+                }
+            }
+
+            using(Db db = new Db())
+            {
+                ProductDTO dto = db.Products.Find(id);
+
+                dto.Name = model.Name;
+                dto.longDesc = model.Name.Replace(" ", "-").ToLower();
+                dto.shortDesc = model.shortDesc;
+                dto.Price = model.Price;
+                dto.CategoryId = model.CategoryId;
+                dto.ImageName = model.ImageName;
+
+                CategoryDTO catDto = db.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
+                dto.CategoryName = catDto.Name;
+
+                db.SaveChanges();
+            }
+
+            TempData["SM"] = "You have edited the product.";
+
+            #region Image Upload
+
+            if(file != null && file.ContentLength > 0)
+            {
+                string ext = file.ContentType.ToLower();
+
+                if (ext != "image/jpg" &&
+                    ext != "image/jpeg" &&
+                    ext != "image/pjpeg" &&
+                    ext != "image/png" &&
+                    ext != "image/gif")
+                {
+                    using (Db db = new Db())
+                    {                        
+                        ModelState.AddModelError("", "The image was not uploaded = wrong image extension");
+                        return View(model);
+                    }
+                }
+
+                var OriginalDir = new DirectoryInfo(string.Format($"{Server.MapPath(@"\")}Images\\Uploads"));
+               
+                var pathString1 = Path.Combine(OriginalDir.ToString(), "Products\\" + id.ToString());
+                var pathString2 = Path.Combine(OriginalDir.ToString(), "Products\\" + id.ToString() + "\\Thumbs");
+
+                DirectoryInfo di1 = new DirectoryInfo(pathString1);
+                DirectoryInfo di2 = new DirectoryInfo(pathString2);
+
+                foreach (var file2 in di1.GetFiles())
+                {
+                    file2.Delete();
+                }
+                foreach (var file3 in di2.GetFiles())
+                {
+                    file3.Delete();
+                }
+
+                string imgName = file.FileName;
+
+                using(Db db = new Db())
+                {
+                    ProductDTO dto = db.Products.Find(id);
+
+                     dto.ImageName = imgName;
+                    
+                    db.SaveChanges();
+                }
+
+                var pathStr2 = string.Format($"{pathString1}\\{imgName}");
+                var pathStr3 = string.Format($"{pathString2}\\{imgName}");
+                // Сохранить оригинальное изображение
+                file.SaveAs(pathStr2);
+                // Создаем и сохраняем уменьшеную копию
+                WebImage img = new WebImage(file.InputStream);
+                img.Resize(300, 300);
+                img.Save(pathStr3);
+            }
+
+            #endregion
+
+            return RedirectToAction("EditProduct");
+        }
+        // GET: Admin/Shop/DeleteProduct/id
+        [HttpGet]
+        public ActionResult DeleteProduct(int id)
+        {
+            using(Db db = new Db())
+            {
+                ProductDTO dto = db.Products.Find(id);
+
+                db.Products.Remove(dto);
+                db.SaveChanges();
+            }
+
+            var OriginalDir = new DirectoryInfo(string.Format($"{Server.MapPath(@"\")}Images\\Uploads"));           
+            var pathString = Path.Combine(OriginalDir.ToString(), "Products\\" + id.ToString());
+
+            if(Directory.Exists(pathString)) //Удаляем каталог (true - все подкаталоги)
+            {
+                Directory.Delete(pathString, true);
+            }
+
+            return RedirectToAction("Products");
         }
     }
 }
