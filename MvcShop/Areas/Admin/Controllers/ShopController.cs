@@ -259,7 +259,7 @@ namespace MvcShop.Areas.Admin.Controllers
                 file.SaveAs(pathStr2);
                 // Создаем и сохраняем уменьшеную копию
                 WebImage img = new WebImage(file.InputStream);
-                img.Resize(300, 300);
+                img.Resize(300, 300).Crop(1, 1);
                 img.Save(pathStr3);
             }
             #endregion
@@ -419,7 +419,7 @@ namespace MvcShop.Areas.Admin.Controllers
                 file.SaveAs(pathStr2);
                 // Создаем и сохраняем уменьшеную копию
                 WebImage img = new WebImage(file.InputStream);
-                img.Resize(300, 300);
+                img.Resize(300, 300).Crop(1,1);
                 img.Save(pathStr3);
             }
 
@@ -448,6 +448,48 @@ namespace MvcShop.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Products");
+        }
+        // POST: Admin/Shop/SaveGalleryImages/id
+        [HttpPost]
+        public void SaveGalleryImages(int id)
+        {
+            foreach(string fileName in Request.Files)
+            {
+                HttpPostedFileBase file = Request.Files[fileName];
+
+                if(file != null && file.ContentLength > 0)
+                {
+                    var OriginalDir = new DirectoryInfo(string.Format($"{Server.MapPath(@"\")}Images\\Uploads"));
+                    var pathString1 = Path.Combine(OriginalDir.ToString(), "Products\\" + id.ToString() + "\\Gallery");
+                    var pathString2 = Path.Combine(OriginalDir.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
+
+                    var path1 = string.Format($"{pathString1}\\{file.FileName}");
+                    var path2 = string.Format($"{pathString2}\\{file.FileName}");
+
+                    file.SaveAs(path1);
+
+                    WebImage img = new WebImage(file.InputStream);
+
+                    img.Resize(300, 300).Crop(1,1);
+                    img.Save(path2);
+                }
+            }
+        }
+        // POST: Admin/Shop/DeleteImage/id/imageName        
+        public void DeleteImage(int id, string imageName)
+        {
+            string fullPath1 = Request.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/" + imageName);
+            string fullPath2 = Request.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs/" + imageName);
+
+
+            if (System.IO.File.Exists(fullPath1))
+            {
+                System.IO.File.Delete(fullPath1);
+            }
+            if (System.IO.File.Exists(fullPath2))
+            {
+                System.IO.File.Delete(fullPath2);
+            }
         }
     }
 }

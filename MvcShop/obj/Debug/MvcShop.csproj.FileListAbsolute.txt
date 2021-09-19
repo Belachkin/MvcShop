@@ -135,7 +135,6 @@ D:\GitHub clone\MvcShop\MvcShop\bin\ru\System.Web.Razor.resources.dll
 D:\GitHub clone\MvcShop\MvcShop\bin\ru\System.Web.WebPages.resources.dll
 D:\GitHub clone\MvcShop\MvcShop\bin\ru\System.Web.WebPages.Deployment.resources.dll
 D:\GitHub clone\MvcShop\MvcShop\bin\ru\System.Web.WebPages.Razor.resources.dll
-D:\GitHub clone\MvcShop\MvcShop\obj\Debug\MvcShop.csproj.AssemblyReference.cache
 D:\GitHub clone\MvcShop\MvcShop\obj\Debug\MvcShop.csproj.CoreCompileInputs.cache
 D:\GitHub clone\MvcShop\MvcShop\obj\Debug\MvcShop.csproj.CopyComplete
 D:\GitHub clone\MvcShop\MvcShop\obj\Debug\MvcShop.dll
