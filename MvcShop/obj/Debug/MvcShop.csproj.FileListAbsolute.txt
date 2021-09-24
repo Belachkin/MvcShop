@@ -143,3 +143,4 @@ D:\GitHub clone\MvcShop\MvcShop\bin\PagedList.dll
 D:\GitHub clone\MvcShop\MvcShop\bin\PagedList.Mvc.dll
 D:\GitHub clone\MvcShop\MvcShop\bin\PagedList.xml
 D:\GitHub clone\MvcShop\MvcShop\bin\PagedList.Mvc.xml
+D:\GitHub clone\MvcShop\MvcShop\obj\Debug\MvcShop.csproj.AssemblyReference.cache

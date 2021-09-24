@@ -1,0 +1,12 @@
+﻿@model IEnumerable<MvcShop.Models.ViewModels.Pages.PageVM>
+
+
+
+@foreach (var item in Model) 
+{
+   
+    <li class="nav-item"><a class="nav-link" href=/@item.shortDesc>@item.Title</a></li>
+
+}
+
+
