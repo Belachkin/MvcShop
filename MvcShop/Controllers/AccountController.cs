@@ -145,6 +145,26 @@ namespace MvcShop.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
+        public ActionResult UserNavPartial()
+        {
+            string userName = User.Identity.Name;
+
+            UserNavPartialVM model;
+
+            using(Db db = new Db())
+            {
+                UserDTO userDTO = db.Users.FirstOrDefault(x => x.Username == userName);
+
+                model = new UserNavPartialVM()
+                {
+                    FirstName = userDTO.FirstName,
+                    LastName = userDTO.LastName
+                };
+            }
+
+            return PartialView("_UserNavPartial",model);
+
+        }
 
         //TODO: Добавить вывод инфы об аккаунте
         //TODO: Добавить редактор аккаунта

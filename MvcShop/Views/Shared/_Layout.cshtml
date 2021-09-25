@@ -17,6 +17,28 @@
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             @Html.Action("PagesMenuPartial", "Pages")
+
+            @if(Request.IsAuthenticated)
+            {
+                <li>@Html.ActionLink("Logout", "Logout", "Account", null, new {@class = "navbar-text", style = "text-decoration: none" })</li>
+            }
+            else
+            {
+                if(ViewBag.Title == "Login")
+                {
+                    <li class="navbar-text">@Html.ActionLink("Login", "Login", "Account", null, new {@class = "active", style = "text-decoration: none" })</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Login", "Login", "Account", null, new { @class = "navbar-text", style = "text-decoration: none" })</li>
+                }
+            }
+
+            @if(Request.IsAuthenticated)
+            {
+                <li>@Html.Action("UserNavPartial", "Account", new {area = "" })</li>
+            }
+
         </ul>
 
         <div class="col-md-3 ">
