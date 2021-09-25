@@ -14,5 +14,6 @@ namespace MvcShop.Models.Data
         public DbSet<ProductDTO> Products { get; set; }
         public DbSet<UserDTO> Users { get; set; }
         public DbSet<AccessRightsDTO> AccessRights { get; set; }
+        public DbSet<UserRoleDTO> UserRoles { get; set; }
     }
 }
