@@ -165,6 +165,112 @@ namespace MvcShop.Controllers
             return PartialView("_UserNavPartial",model);
 
         }
+        [ActionName("Profile")]
+        [HttpGet]
+        public ActionResult UserProfile()
+        {
+            string userName = User.Identity.Name;
+
+            UserProfileVM model;
+
+            using(Db db = new Db())
+            {
+                UserDTO dto = db.Users.FirstOrDefault(x => x.Username == userName);
+
+                model = new UserProfileVM(dto);
+            }
+
+            return View("UserProfile", model);
+        }
+        [ActionName("Profile")]
+        [HttpPost]
+        public ActionResult UserProfile(UserProfileVM model)
+        {
+            bool userNameIsChanged = false;
+
+            if(!ModelState.IsValid)
+            {
+                return View("UserProfile", model);
+            }
+
+            if (!string.IsNullOrEmpty(model.Password))
+            {
+                if(!model.Password.Equals(model.ConfirmPassword))
+                {
+                    ModelState.AddModelError("", "Password do not match");
+                    return View("UserProfile", model);
+                }
+            }
+
+            using(Db db = new Db())
+            {
+                string userName = User.Identity.Name;
+
+                if(userName != model.Username)
+                {
+                    userName = model.Username;
+                    userNameIsChanged = true;
+                }
+
+                if(db.Users.Where(x => x.Id != model.Id).Any(x => x.Username == userName))
+                {
+                    ModelState.AddModelError("", $"Username: {model.Username} alredy exists");
+                    model.Username = "";
+                    return View("UserProfile", model);
+                }
+
+                UserDTO dto = db.Users.Find(model.Id);
+
+                dto.FirstName = model.FirstName;
+                dto.LastName = model.LastName;
+
+                if (!string.IsNullOrWhiteSpace(model.Username))
+                {
+                    dto.Username = model.Username;
+                }
+
+                if (db.Users.Where(x => x.Id != model.Id).Any(x => x.EmailAdress == model.EmailAdress))
+                {
+                    ModelState.AddModelError("", "Email alredy exists");
+                    model.EmailAdress = "";                   
+                    return View("UserProfile", model);
+                }
+                if (!string.IsNullOrWhiteSpace(model.EmailAdress))
+                {
+                    dto.EmailAdress = model.EmailAdress;
+                }
+
+                
+
+                if (db.Users.Where(x => x.Id != model.Id).Any(x => x.Password == model.Password))
+                {
+                    ModelState.AddModelError("", "Password alredy exists");
+                    model.Password = "";
+                    model.ConfirmPassword = "";
+                    return View("UserProfile", model);
+                }
+                if(!string.IsNullOrWhiteSpace(model.Password))
+                {
+                    dto.Password = model.Password;
+                }
+
+                db.SaveChanges();
+
+            }
+
+            TempData["SM"] = "You have edited profile";
+
+            if(!userNameIsChanged)
+            {
+                return View("UserProfile", model);
+            }
+            else
+            {
+                return RedirectToAction("Logout");
+            }
+
+            
+        }
 
         //TODO: Добавить вывод инфы об аккаунте
         //TODO: Добавить редактор аккаунта
