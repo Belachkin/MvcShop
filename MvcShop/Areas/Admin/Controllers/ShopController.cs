@@ -10,6 +10,7 @@ using PagedList;
 
 namespace MvcShop.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ShopController : Controller
     {
         //Category------------------------------------
@@ -491,5 +492,8 @@ namespace MvcShop.Areas.Admin.Controllers
                 System.IO.File.Delete(fullPath2);
             }
         }
+
+        
+
     }
 }

@@ -18,15 +18,15 @@
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             @Html.Action("PagesMenuPartial", "Pages")
 
-            @if(Request.IsAuthenticated)
+            @if (Request.IsAuthenticated)
             {
-                <li>@Html.ActionLink("Logout", "Logout", "Account", null, new {@class = "navbar-text", style = "text-decoration: none" })</li>
+                <li>@Html.ActionLink("Logout", "Logout", "Account", null, new { @class = "navbar-text", style = "text-decoration: none" })</li>
             }
             else
             {
-                if(ViewBag.Title == "Login")
+                if (ViewBag.Title == "Login")
                 {
-                    <li class="navbar-text">@Html.ActionLink("Login", "Login", "Account", null, new {@class = "active", style = "text-decoration: none" })</li>
+                    <li class="navbar-text">@Html.ActionLink("Login", "Login", "Account", null, new { @class = "active", style = "text-decoration: none" })</li>
                 }
                 else
                 {
@@ -34,16 +34,33 @@
                 }
             }
 
-            @if(Request.IsAuthenticated)
+            @if (Request.IsAuthenticated && User.IsInRole("User"))
             {
-                <li>@Html.Action("UserNavPartial", "Account", new {area = "" })</li>
+                <li>@Html.Action("UserNavPartial", "Account", new { area = "" })</li>
             }
 
         </ul>
 
-        <div class="col-md-3 ">
-            @Html.Action("CartPartial", "Cart")
-        </div>
+        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <div class="col-md-3 ">
+                @Html.ActionLink("Admin Area", "Index", "Dashboard", new {area = "Admin" }, null)
+            </div>
+        }
+        else
+        {
+
+            if(ViewBag.Title != "Cart")
+            {
+                <div class="col-md-3 ">
+                @Html.Action("CartPartial", "Cart")
+                </div>
+            }
+
+            
+        }
+
+
     </header>
 
     

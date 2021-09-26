@@ -139,6 +139,7 @@ namespace MvcShop.Controllers
                 }
             }           
         }
+        [Authorize]
         [HttpGet]
         public ActionResult Logout()
         {
@@ -167,6 +168,7 @@ namespace MvcShop.Controllers
         }
         [ActionName("Profile")]
         [HttpGet]
+        [Authorize]
         public ActionResult UserProfile()
         {
             string userName = User.Identity.Name;
@@ -184,6 +186,7 @@ namespace MvcShop.Controllers
         }
         [ActionName("Profile")]
         [HttpPost]
+        [Authorize]
         public ActionResult UserProfile(UserProfileVM model)
         {
             bool userNameIsChanged = false;
@@ -271,6 +274,9 @@ namespace MvcShop.Controllers
 
             
         }
+
+        //[Authorize(Roles = "User")]
+        //public ActionResult Orders() { }
 
         //TODO: Добавить вывод инфы об аккаунте
         //TODO: Добавить редактор аккаунта
