@@ -1,5 +1,6 @@
 ﻿using MvcShop.Models.Data;
 using MvcShop.Models.ViewModels.Account;
+using MvcShop.Models.ViewModels.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -274,12 +275,23 @@ namespace MvcShop.Controllers
 
             
         }
+        [Authorize]
+        public ActionResult Orders()
+        {
+            string userName = User.Identity.Name;
 
-        //[Authorize(Roles = "User")]
-        //public ActionResult Orders() { }
+            List<OrderVM> orderDTO;
 
-        //TODO: Добавить вывод инфы об аккаунте
-        //TODO: Добавить редактор аккаунта
-        //TODO: Добавить возможность удалить аккунт с капчей
+            using (Db db = new Db())
+            {
+                var user = db.Users.FirstOrDefault(x => x.Username == userName);
+                int userId = user.Id;                            
+
+                orderDTO = db.Orders.Where(x => x.UserId == userId).ToArray().Select(x => new OrderVM(x)).ToList();
+            }
+
+            return View(orderDTO);
+        }
+
     }
 }

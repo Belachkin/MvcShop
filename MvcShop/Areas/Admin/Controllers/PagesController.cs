@@ -17,7 +17,7 @@ namespace MvcShop.Areas.Admin.Controllers
             List<PageVM> pageList;
             using (Db db = new Db())
             {
-                pageList = db.Pages.ToArray().OrderBy(x => x.Sorting).Select(x => new PageVM(x)).ToList();
+                pageList = db.Pages.ToArray().OrderBy(x => x.Sorting).Select(x => new PageVM(x)).ToList();                
             }
             return View(pageList);
         }

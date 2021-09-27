@@ -80,3 +80,11 @@ span.loader{
 .ib {
     display: inline-block !important;
 }
+
+.ajaxbg {
+    position: center;
+    width: 50%;
+    height: 50%;
+    display: none;
+}
+

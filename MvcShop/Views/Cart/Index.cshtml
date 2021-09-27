@@ -12,8 +12,7 @@
 }
 else
 {
-
-
+    
 
     <table class="table">
         <tr>
@@ -48,12 +47,12 @@ else
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
-                </td>                  
-                <td >
+                </td>
+                <td>
                     <a href="#" class="decproduct btn btn-outline-dark btn-sm" data-id="@item.ProductId">-</a>
-                    <span class="qty@(item.ProductId)">@Html.DisplayFor(modelItem => item.Quantity)   </span>   
+                    <span class="qty@(item.ProductId)">@Html.DisplayFor(modelItem => item.Quantity)   </span>
                     <a href="#" class="incproduct btn btn-outline-dark btn-sm" data-id="@item.ProductId">+</a>
-                </td>                   
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price) $
                 </td>
@@ -78,9 +77,18 @@ else
             <td class="grandtotal"><b>Grand total: </b> <span> @ViewBag.GrandTotal $</span></td>
         </tr>
     </table>
+    <br />
+
+    @Html.ActionLink("Checkout", "Checkout", "Cart", new {@class = "checkout btn btn-primary" })
+    
+
+
+
+
 }
 
 @section Scripts
 {
     <script src="~/Content/Js/IncrementProduct.js"></script>
+
 }

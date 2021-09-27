@@ -1,4 +1,5 @@
 ﻿using MvcShop.Models.Data;
+using MvcShop.Models.ViewModels.Account;
 using MvcShop.Models.ViewModels.Cart;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace MvcShop.Controllers
 {
     public class CartController : Controller
     {
-        // GET: Cart
+        // GET: Cart       
         public ActionResult Index()
         {
             var cart = Session["cart"] as List<CartVM> ?? new List<CartVM>();
@@ -158,6 +159,76 @@ namespace MvcShop.Controllers
 
                 cart.Remove(model);
             }
+        }
+        [HttpGet]
+        public ActionResult Checkout()
+        {
+            string userName = User.Identity.Name;
+            var cart = Session["cart"] as List<CartVM> ?? new List<CartVM>();
+
+            if (cart.Count == 0 || Session["cart"] == null)
+            {               
+                return RedirectToAction("Index");
+            }
+
+            decimal total = 0m;
+
+            foreach (var item in cart)
+            {
+                total += item.Total;
+            }
+
+
+            ViewBag.AllItems = cart.Count;
+            ViewBag.GrandTotal = total;
+           
+
+            using(Db db = new Db())
+            {
+                UserDTO userDTO = db.Users.FirstOrDefault(x => x.Username == userName);
+
+                ViewBag.Username = userDTO.Username;
+                ViewBag.LastName = userDTO.LastName;
+                ViewBag.FirstName = userDTO.FirstName;
+                ViewBag.Email = userDTO.EmailAdress;
+            }
+
+
+
+            return View("Checkout", cart);
+        }
+        [HttpPost]
+        public ActionResult Checkout(string fname, string lname, string email, 
+                                    string address, string country, string state, string zip)
+        {
+            List<CartVM> cart = Session["cart"] as List<CartVM>;
+            string userName = User.Identity.Name;            
+
+            using(Db db = new Db())
+            {
+                OrderDTO orderDTO = new OrderDTO();
+
+                var q = db.Users.FirstOrDefault(x => x.Username == userName);
+                int userId = q.Id;
+
+                orderDTO.UserId = userId;
+                
+                orderDTO.CreatedAt = DateTime.Now;
+
+                foreach(var item in cart)
+                {
+                    orderDTO.ProductInfo += $"{item.ProductName} x{item.Quantity}";
+                }
+
+                orderDTO.DeliveryInfo = $"{fname} {lname} \n{email}\n{country} {state} {zip} \n{address} ";
+                orderDTO.DeliveryStatus = "Waiting to ship";
+
+                db.Orders.Add(orderDTO);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Profile", "Account");
+
         }
     }
 }
