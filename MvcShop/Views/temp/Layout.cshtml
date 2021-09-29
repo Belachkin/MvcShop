@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+</head>
+<body class="bg-light">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between border-bottom">
+        <div class="fs-2 mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-box" viewBox="0 0 16 16">
+                <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"></path>
+            </svg>
+            
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            @Html.Action("PagesMenuPartial", "Pages")
+
+            @if (Request.IsAuthenticated)
+            {
+                <li>@Html.ActionLink("Logout", "Logout", "Account", null, new { @class = "navbar-text", style = "text-decoration: none" })</li>
+            }
+            else
+            {
+                if (ViewBag.Title == "Login")
+                {
+                    <li class="navbar-text">@Html.ActionLink("Login", "Login", "Account", null, new { @class = "active", style = "text-decoration: none" })</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Login", "Login", "Account", null, new { @class = "navbar-text", style = "text-decoration: none" })</li>
+                }
+            }
+
+            @if (Request.IsAuthenticated && User.IsInRole("User"))
+            {
+                <li>@Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+            }
+
+        </ul>
+
+        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <div class="col-md-3 ">
+                @Html.ActionLink("Admin Area", "Index", "Dashboard", new {area = "Admin" }, null)
+            </div>
+        }
+        else
+        {
+
+            if(ViewBag.Title != "Cart")
+            {
+                <div class="col-md-3 ">
+                @Html.Action("CartPartial", "Cart")
+                </div>
+            }
+
+            
+        }
+
+
+    </header>
+
+    
+    
+
+
+    <div class="container body-content">
+        <div class="row">
+
+            <div class="col-sm-12 col-md-3 list-group">
+                @Html.Action("CategoryMenuPartial", "Shop")
+            </div>
+
+            @if (ViewBag.Sidebar == "Yes")
+            {
+                <div class="col">
+                    @RenderBody()
+                </div>
+
+                <div class="col-sm-12 col-md-3">
+                    @Html.Action("SidebarPartial", "Pages")
+                </div>
+            }
+            else
+            {
+                <div class="col">
+                    @RenderBody()
+                </div>
+            }
+
+
+        </div>
+        <hr />
+        <footer class="text-center text-white" style="background-color: #f1f1f1;">          
+           
+            <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2021 Copyright:
+                <a class="text-dark" href="https://github.com/Belachkin">Belachkin</a>
+            </div>           
+        </footer>
+    </div>
+
+
+    @Styles.Render("~/bundles/scripts")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/ckeditor");
+
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

@@ -353,8 +353,8 @@ namespace MvcShop.Areas.Admin.Controllers
                 ProductDTO dto = db.Products.Find(id);
 
                 dto.Name = model.Name;
-                dto.longDesc = model.Name.Replace(" ", "-").ToLower();
-                dto.shortDesc = model.shortDesc;
+                dto.longDesc = model.longDesc;
+                dto.shortDesc = model.Name.Replace(" ", "-").ToLower();
                 dto.Price = model.Price;
                 dto.CategoryId = model.CategoryId;
                 dto.ImageName = model.ImageName;

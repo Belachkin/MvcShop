@@ -4,80 +4,87 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - MvcShop</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+    @Styles.Render("~/Content/bootstrap")
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+
 </head>
 <body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Navbar brand -->
+                <a class="navbar-brand mt-2 mt-lg-0" href="/Home">
+                    <img src="https://img.icons8.com/color/48/000000/cardboard-box.png"
+                         height="30"
+                         alt=""
+                         loading="lazy" />
+                </a>
+                <!-- Left links -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @Html.Action("PagesMenuPartial", "Pages")
+                </ul>
+                <!-- Left links -->
+            </div>
+            <!-- Collapsible wrapper -->
+            <!-- Right elements -->
+            <div class="d-flex align-items-center">
+                <!--Cart-->
 
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-        </a>
-
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            @Html.Action("PagesMenuPartial", "Pages")
-
-            @if (Request.IsAuthenticated)
-            {
-                <li>@Html.ActionLink("Logout", "Logout", "Account", null, new { @class = "navbar-text", style = "text-decoration: none" })</li>
-            }
-            else
-            {
-                if (ViewBag.Title == "Login")
+                @if (Request.IsAuthenticated)
                 {
-                    <li class="navbar-text">@Html.ActionLink("Login", "Login", "Account", null, new { @class = "active", style = "text-decoration: none" })</li>
+                    if (User.IsInRole("User") && ViewBag.Title != "Cart")
+                    {
+
+                        @Html.Action("CartPartial", "Cart")
+
+                    }
+
+                    if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Admin Area", "Index", "Dashboard", new { area = "Admin" }, null)
+                    }
+
+                    <a href="/Account/Profile">
+                        <img src="https://img.icons8.com/plumpy/48/000000/test-account.png" height="32" />
+                    </a>
+
                 }
                 else
                 {
-                    <li>@Html.ActionLink("Login", "Login", "Account", null, new { @class = "navbar-text", style = "text-decoration: none" })</li>
+                    @Html.ActionLink("Login", "Login", "Account", null, new { @class = "navbar-text", style = "text-decoration: none" })
                 }
-            }
 
-            @if (Request.IsAuthenticated && User.IsInRole("User"))
-            {
-                <li>@Html.Action("UserNavPartial", "Account", new { area = "" })</li>
-            }
 
-        </ul>
 
-        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-        {
-            <div class="col-md-3 ">
-                @Html.ActionLink("Admin Area", "Index", "Dashboard", new {area = "Admin" }, null)
+
             </div>
-        }
-        else
-        {
-
-            if(ViewBag.Title != "Cart")
-            {
-                <div class="col-md-3 ">
-                @Html.Action("CartPartial", "Cart")
-                </div>
-            }
-
-            
-        }
+            <!-- Right elements -->
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar --> 
 
 
-    </header>
-
-    
-    
 
 
     <div class="container body-content">
+
         <div class="row">
 
-            <div class="col-sm-12 col-md-3 list-group">
-                @Html.Action("CategoryMenuPartial", "Shop")
+            <div class="col-2 list-group">
+                @Html.Action("CategoryMenuPartial", "Shop")              
             </div>
 
             @if (ViewBag.Sidebar == "Yes")
             {
-                <div class="col">
+                <div class="col-10">
                     @RenderBody()
                 </div>
 
@@ -87,28 +94,32 @@
             }
             else
             {
-                <div class="col">
-                    @RenderBody()
-                </div>
+            <div class="col-10">
+                @RenderBody()              
+            </div>
             }
 
 
         </div>
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - мое приложение ASP.NET</p>
+        <footer class="text-center text-white" style="background-color: #f1f1f1;">
+
+            <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2021 Copyright:
+                <a class="text-dark" href="https://github.com/Belachkin">Belachkin</a>
+            </div>
         </footer>
     </div>
 
 
     @Styles.Render("~/bundles/scripts")
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/ckeditor");
-
+    @Scripts.Render("~/bundles/ckeditor")
+    @Scripts.Render("~/bundles/popper")
 
     @RenderSection("scripts", required: false)
 
 </body>
 </html>
+

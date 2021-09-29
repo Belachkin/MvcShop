@@ -1,5 +1,10 @@
 ﻿@model MvcShop.Models.ViewModels.Cart.CartVM
 
-Your cart: @Model.Quantity item(s) - @Model.Price $
-<br />
-<a href="/Cart/Index" class="btn btn-sm btn-success">Checkout</a>
+<div class="ajaxcart">
+    <a class="text-reset me-3 hidden-arrow position-relative" href="/Cart/Index">
+        <img src="https://img.icons8.com/glyph-neue/64/000000/shopping-cart.png" height="30" />
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            @Model.Quantity 
+        </span>
+    </a>
+</div>

@@ -4,47 +4,74 @@
     ViewBag.Title = ViewBag.CategoryName;
 }
 
+<link href="~/Content/Card.css" rel="stylesheet" />
+
 <h2>@ViewBag.CategoryName</h2>
-
-
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        
-        <th>
-            Description
-        </th>
-        <th>
-            Price
-        </th>      
-        <th>
-            Image
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.longDesc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price) $
-        </td>
-        <td>
+<div class="g-3 row bg-light">
+    @foreach (var item in Model)
+    {
+        <div class="bg-light product-item col-md-3 col-sm-4">
             <a href="/shop/product-details/@item.shortDesc">
-                <img src="/Images/Uploads/Products/@item.Id/Thumbs/@item.ImageName"/>
+                <img src="/Images/Uploads/Products/@item.Id/Thumbs/@item.ImageName" height="250" width="100">
             </a>
-        </td>
-        <td>
-            <a href="/shop/product-details/@item.shortDesc" class="btn btn-info">Details</a>
-        </td>
-    </tr>
-}
+            <div class="bg-light product-list">
+                <h3>@item.Name</h3>
+                <span class="price">$@item.Price</span>
+                @*<form method="post" action="~/Cart/AddToCartPartial">
+                        <input type="hidden" name="id" value="@item.Id"/>
+                        <button type="submit" class="button">Add to cart</button>
+                    </form>*@
+                <div class="addtocart">
+                    <a href="#" class="addtocart button">Add to card</a>
+                </div>
+                
 
-</table>
+            </div>
+        </div>
+
+    }
+</div>
+
+@*<table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+
+            <th>
+                Description
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Image
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.longDesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price) $
+                </td>
+                <td>
+                    <a href="/shop/product-details/@item.shortDesc">
+                        <img src="/Images/Uploads/Products/@item.Id/Thumbs/@item.ImageName" />
+                    </a>
+                </td>
+                <td>
+                    <a href="/shop/product-details/@item.shortDesc" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+
+    </table>*@
+

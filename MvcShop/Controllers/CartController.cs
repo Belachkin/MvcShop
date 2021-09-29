@@ -110,7 +110,7 @@ namespace MvcShop.Controllers
             Session["cart"] = cart;
 
             return PartialView("_AddToCartPartial", model);
-        }
+        }      
         public JsonResult IncrementProduct(int productId)
         {
             List<CartVM> cart = Session["cart"] as List<CartVM>;
