@@ -8,7 +8,14 @@
 <br />
 <div class="row">
     <div class="col-sm-12 col-md-5">
-        <img src="/Images/Uploads/Products/@Model.Id/Thumbs/@Model.ImageName" />
+        @if (Model.ImageName == null)
+        {
+            <img src="/Content/images/no_image.png" />
+        }
+        else
+        {
+            <img src="/Images/Uploads/Products/@Model.Id/Thumbs/@Model.ImageName"  />
+        }
     </div>
 
     <div class="col-sm-12 col-md-7">
@@ -45,7 +52,7 @@
         <br /><br />
               <div class="row">
                   @foreach (var item in Model.GalleryImages)
-                  {
+                  {                     
                       <div class="col">
                           <a class="fancybox" rel="gallery1" href="/Images/Uploads/Products/@Model.Id/Gallery/@item">
                               <img src="/Images/Uploads/Products/@Model.Id/Gallery/Thumbs/@item" />

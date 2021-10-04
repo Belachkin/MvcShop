@@ -12,7 +12,15 @@
     {
         <div class="bg-light product-item col-md-3 col-sm-4">
             <a href="/shop/product-details/@item.shortDesc">
-                <img src="/Images/Uploads/Products/@item.Id/Thumbs/@item.ImageName" height="250" width="100">
+                @if (item.ImageName == null)
+                {
+                    <img src="/Content/images/no_image.png" height="250" width="100" />
+                }
+                else
+                {
+                    <img src="/Images/Uploads/Products/@item.Id/Thumbs/@item.ImageName" height="250" width="100">
+                }
+
             </a>
             <div class="bg-light product-list">
                 <h3>@item.Name</h3>
