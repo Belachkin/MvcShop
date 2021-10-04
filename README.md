@@ -9,7 +9,7 @@
 </center>
 
 ## About
-___
+
 
 MvcShop this is E-Shop written in MVC pattern using C# language.
 
@@ -25,7 +25,7 @@ In it you can:
 
 
 ## Used Libraries
-___
+
 * Antlr
 * Bootstrap
 * CKEditor
