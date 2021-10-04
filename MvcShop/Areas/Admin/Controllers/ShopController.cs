@@ -177,7 +177,8 @@ namespace MvcShop.Areas.Admin.Controllers
                 prodDto.CategoryId = model.CategoryId;
 
                 CategoryDTO catDto = db.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
-                prodDto.CategoryName = model.CategoryName;
+                //prodDto.CategoryName = model.CategoryName;
+                prodDto.CategoryName = catDto.Name;
 
                 db.Products.Add(prodDto);
                 db.SaveChanges();
@@ -289,7 +290,7 @@ namespace MvcShop.Areas.Admin.Controllers
                 ViewBag.SelectedCat = catId.ToString();
             }
 
-            var onePageOfProducts = ListOfProductVM.ToPagedList(pageNumber, 3);
+            var onePageOfProducts = ListOfProductVM.ToPagedList(pageNumber, 10);
 
             ViewBag.onePageOfProducts = onePageOfProducts;
 

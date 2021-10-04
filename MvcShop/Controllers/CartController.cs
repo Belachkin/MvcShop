@@ -64,7 +64,7 @@ namespace MvcShop.Controllers
 
             return PartialView("_CartPartial", model);
         }
-
+        
         public ActionResult AddToCartPartial(int id)
         {
             List<CartVM> cart = Session["cart"] as List<CartVM> ?? new List<CartVM>();
@@ -217,10 +217,10 @@ namespace MvcShop.Controllers
 
                 foreach(var item in cart)
                 {
-                    orderDTO.ProductInfo += $"{item.ProductName} x{item.Quantity}";
+                    orderDTO.ProductInfo += $"{item.ProductName} x{item.Quantity} ";
                 }
 
-                orderDTO.DeliveryInfo = $"{fname} {lname} \n{email}\n{country} {state} {zip} \n{address} ";
+                orderDTO.DeliveryInfo = $"{fname} {lname} {email} {country} {state} {zip} {address} ";
                 orderDTO.DeliveryStatus = "Waiting to ship";
 
                 db.Orders.Add(orderDTO);

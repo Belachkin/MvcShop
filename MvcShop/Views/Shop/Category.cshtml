@@ -16,18 +16,16 @@
             </a>
             <div class="bg-light product-list">
                 <h3>@item.Name</h3>
-                <span class="price">$@item.Price</span>
-                @*<form method="post" action="~/Cart/AddToCartPartial">
-                        <input type="hidden" name="id" value="@item.Id"/>
-                        <button type="submit" class="button">Add to cart</button>
-                    </form>*@
+                <span class="price">$@item.Price</span>                
                 <div class="addtocart">
-                    <a href="#" class="addtocart button">Add to card</a>
+                    <a href="/shop/product-details/@item.shortDesc" class="addtocart button">Add to card</a>
                 </div>
-                
+
 
             </div>
         </div>
+
+        
 
     }
 </div>
